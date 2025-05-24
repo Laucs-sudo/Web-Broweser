@@ -1,62 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Search and Show List</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #0d0d0d;
-      color: white;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: none;
-      margin-bottom: 20px;
-      box-sizing: border-box;
-    }
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    li {
-      background-color: #16171d;
-      margin-bottom: 8px;
-      padding: 10px;
-      border-radius: 6px;
-      cursor: default;
-      transition: background-color 0.2s;
-    }
-    li:hover {
-      background-color: #2f303d;
-    }
-    .no-results {
-      font-style: italic;
-      color: #888;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vireon - Live Search</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  :root {
+    --bg: #0d0d0d;
+    --input-bg: #16171d;
+    --accent: #4fc3f7;
+    --text-light: #bdbecb;
+    --text-dark: #e0e0e0;
+    --shadow: rgba(31, 34, 49, 0.5);
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-dark);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+    padding: 3rem 1rem;
+  }
+  h1 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    user-select: none;
+  }
+  #searchInput {
+    width: 100%;
+    max-width: 480px;
+    background: var(--input-bg);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    outline-offset: 4px;
+    box-shadow:
+      0 4px 10px var(--shadow);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  #searchInput::placeholder {
+    color: var(--text-light);
+    opacity: 0.7;
+  }
+  #searchInput:focus {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 8px 3px var(--accent);
+  }
+
+  #resultsList {
+    max-width: 480px;
+    width: 100%;
+    margin-top: 1.5rem;
+    list-style: none;
+    padding-left: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 8px 24px var(--shadow);
+    background: var(--input-bg);
+    min-height: 50px;
+    user-select: none;
+    transition: opacity 0.3s ease;
+  }
+
+  #resultsList li {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #2a2c3a;
+    cursor: default;
+    font-size: 1.05rem;
+    color: var(--text-light);
+    transition: background-color 0.2s ease;
+  }
+  #resultsList li:hover {
+    background-color: #2f303d;
+  }
+  
+  .favicon {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    border-radius: 4px;
+    background: #22242e;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+  .search-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    fill: var(--text-light);
+    flex-shrink: 0;
+  }
+  
+  .no-results {
+    padding: 15px 20px;
+    font-style: italic;
+    color: #888;
+  }
+</style>
 </head>
 <body>
 
-  <h1>Search Entries</h1>
-  <input type="text" id="searchInput" placeholder="Type to filter..." autocomplete="off" />
+<h1>Vireon</h1>
+<input type="text" id="searchInput" placeholder="Type to filter..." autocomplete="off" />
 
-  <ul id="resultsList">
-    <li>Loading data...</li>
-  </ul>
+<ul id="resultsList">
+  <li class="no-results">Loading data...</li>
+</ul>
 
 <script>
   const input = document.getElementById('searchInput');
   const resultsList = document.getElementById('resultsList');
 
   let entries = [];
+
+  // SVG search icon used next to each result
+  const searchSVG = `<svg aria-hidden="true" viewBox="0 0 24 24" class="search-icon" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <path
+        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+      ></path>
+    </g>
+  </svg>`;
 
   // Load searches.txt on page load
   fetch('searches.txt')
@@ -66,8 +143,6 @@
         .split('\n')
         .map(line => line.trim())
         .filter(line => line.length > 0);
-
-      // Show full list initially
       updateList(entries);
     })
     .catch(err => {
@@ -75,37 +150,61 @@
       console.error('Error loading searches.txt:', err);
     });
 
-  // Filter entries based on input and update list
-  input.addEventListener('input', () => {
-    const val = input.value.trim().toLowerCase();
+  // Clean user input to match format (remove protocol and trailing .com)
+  function cleanInput(str) {
+    return str.trim()
+      .toLowerCase()
+      .replace(/^https?:\/\//, '')
+      .replace(/\.com$/, '');
+  }
 
-    if (val === '') {
+  // Update results list with filtered entries
+  function updateList(list) {
+    resultsList.innerHTML = '';
+    if (list.length === 0) {
+      resultsList.innerHTML = '<li class="no-results">No matches found</li>';
+      return;
+    }
+    for (const domain of list) {
+      const li = document.createElement('li');
+
+      // Create favicon img element
+      const favicon = document.createElement('img');
+      favicon.className = 'favicon';
+      // Try to fetch favicon.ico from https://domain.com/favicon.ico
+      favicon.src = `https://${domain}.com/favicon.ico`;
+      favicon.alt = `${domain} favicon`;
+      // fallback: hide broken images
+      favicon.onerror = () => favicon.style.visibility = 'hidden';
+
+      // Insert search SVG
+      const svgWrapper = document.createElement('span');
+      svgWrapper.innerHTML = searchSVG;
+
+      li.appendChild(favicon);
+      li.appendChild(svgWrapper.firstChild);
+
+      const text = document.createTextNode(domain);
+      li.appendChild(text);
+
+      resultsList.appendChild(li);
+    }
+  }
+
+  // On input, filter and update list
+  input.addEventListener('input', () => {
+    const val = cleanInput(input.value);
+
+    if (val.length === 0) {
       updateList(entries);
       return;
     }
 
-    // Clean input: remove https://, http:// and trailing .com
-    let cleaned = val.replace(/^https?:\/\//, '').replace(/\.com$/, '');
+    // Filter entries by matching the input substring
+    const filtered = entries.filter(e => e.toLowerCase().includes(val));
 
-    const filtered = entries.filter(entry =>
-      entry.toLowerCase().includes(cleaned)
-    );
-
-    if (filtered.length === 0) {
-      resultsList.innerHTML = '<li class="no-results">No matches found</li>';
-    } else {
-      updateList(filtered);
-    }
+    updateList(filtered);
   });
-
-  function updateList(list) {
-    resultsList.innerHTML = '';
-    for (const item of list) {
-      const li = document.createElement('li');
-      li.textContent = item;
-      resultsList.appendChild(li);
-    }
-  }
 </script>
 
 </body>
