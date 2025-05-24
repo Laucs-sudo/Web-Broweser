@@ -2,96 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vireon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search and Show List</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
       background-color: #0d0d0d;
-      color: #ffffff;
-      font-family: "Montserrat", sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
+      color: white;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
     }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    .group {
-      display: flex;
-      line-height: 28px;
-      align-items: center;
-      position: relative;
-      max-width: 190px;
-    }
-
-    .input {
-      font-family: "Montserrat", sans-serif;
+    input {
       width: 100%;
-      height: 45px;
-      padding-left: 2.5rem;
-      box-shadow: 0 0 0 1.5px #2b2c37, 0 0 25px -17px #000;
-      border: 0;
-      border-radius: 12px;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
       background-color: #16171d;
-      outline: none;
-      color: #bdbecb;
-      transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
-      cursor: text;
-      z-index: 0;
+      margin-bottom: 8px;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: default;
+      transition: background-color 0.2s;
     }
-
-    .input::placeholder {
-      color: #bdbecb;
+    li:hover {
+      background-color: #2f303d;
     }
-
-    .input:hover {
-      box-shadow: 0 0 0 2.5px #2f303d, 0px 0px 25px -15px #000;
-    }
-
-    .input:active {
-      transform: scale(0.95);
-    }
-
-    .input:focus {
-      box-shadow: 0 0 0 2.5px #2f303d;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 1rem;
-      fill: #bdbecb;
-      width: 1rem;
-      height: 1rem;
-      pointer-events: none;
-      z-index: 1;
+    .no-results {
+      font-style: italic;
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <h1>Vireon</h1>
-  <div class="group">
-    <svg viewBox="0 0 24 24" aria-hidden="true" class="search-icon">
-      <g>
-        <path
-          d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-        ></path>
-      </g>
-    </svg>
 
-    <input
-      id="query"
-      class="input"
-      type="search"
-      placeholder="Search..."
-      name="searchbar"
-    />
-  </div>
+  <h1>Search Entries</h1>
+  <input type="text" id="searchInput" placeholder="Type to filter..." autocomplete="off" />
+
+  <ul id="resultsList">
+    <li>Loading data...</li>
+  </ul>
+
+<script>
+  const input = document.getElementById('searchInput');
+  const resultsList = document.getElementById('resultsList');
+
+  let entries = [];
+
+  // Load searches.txt on page load
+  fetch('searches.txt')
+    .then(res => res.text())
+    .then(text => {
+      entries = text
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
+      // Show full list initially
+      updateList(entries);
+    })
+    .catch(err => {
+      resultsList.innerHTML = '<li class="no-results">Failed to load searches.txt</li>';
+      console.error('Error loading searches.txt:', err);
+    });
+
+  // Filter entries based on input and update list
+  input.addEventListener('input', () => {
+    const val = input.value.trim().toLowerCase();
+
+    if (val === '') {
+      updateList(entries);
+      return;
+    }
+
+    // Clean input: remove https://, http:// and trailing .com
+    let cleaned = val.replace(/^https?:\/\//, '').replace(/\.com$/, '');
+
+    const filtered = entries.filter(entry =>
+      entry.toLowerCase().includes(cleaned)
+    );
+
+    if (filtered.length === 0) {
+      resultsList.innerHTML = '<li class="no-results">No matches found</li>';
+    } else {
+      updateList(filtered);
+    }
+  });
+
+  function updateList(list) {
+    resultsList.innerHTML = '';
+    for (const item of list) {
+      const li = document.createElement('li');
+      li.textContent = item;
+      resultsList.appendChild(li);
+    }
+  }
+</script>
+
 </body>
-<script src="script.js"></script>
 </html>
