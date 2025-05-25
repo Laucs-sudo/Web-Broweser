@@ -1,60 +1,60 @@
-  'https://google.com',
-  'https://youtube.com',
-  'https://facebook.com',
-  'https://instagram.com',
-  'https://whatsapp.com',
-  'https://wikipedia.org',
-  'https://reddit.com',
-  'https://twitter.com',
-  'https://microsoft.com',
-  'https://apple.com',
-  'https://amazon.com',
-  'https://linkedin.com',
-  'https://yahoo.com',
-  'https://tiktok.com',
-  'https://netflix.com',
-  'https://ebay.com',
-  'https://pinterest.com',
-  'https://live.com',
-  'https://bing.com',
-  'https://office.com',
-  'https://zoom.us',
-  'https://nytimes.com',
-  'https://bbc.com',
-  'https://espn.com',
-  'https://cnn.com',
-  'https://weather.com',
-  'https://adobe.com',
-  'https://canva.com',
-  'https://etsy.com',
-  'https://flipkart.com',
-  'https://aliexpress.com',
-  'https://bbc.co.uk',
-  'https://walmart.com',
-  'https://target.com',
-  'https://homedepot.com',
-  'https://ikea.com',
-  'https://samsung.com',
-  'https://nike.com',
-  'https://adobe.com',
-  'https://spotify.com',
-  'https://roblox.com',
-  'https://zoom.us',
-  'https://discord.com',
-  'https://quora.com',
-  'https://fandom.com',
-  'https://twitch.tv',
-  'https://vimeo.com',
-  'https://bilibili.com',
-  'https://alibaba.com',
-  'https://rakuten.co.jp',
-  'https://mercadolivre.com.br',
-  'https://globo.com',
-  'https://detik.com',
-  'https://kompas.com',
-  'https://hurriyet.com.tr',
-  'https://bbc.com',
-  'https://nytimes.com',
-  'https://cnn.com',
-  'https://medicalnewstoday.com',
-  'https://as.com'
+google
+youtube
+facebook
+instagram
+whatsapp
+wikipedia
+reddit
+twitter
+microsoft
+apple
+amazon
+linkedin
+yahoo
+tiktok
+netflix
+ebay
+pinterest
+live
+bing
+office
+zoom
+nytimes
+bbc
+espn
+cnn
+weather
+adobe
+canva
+etsy
+flipkart
+aliexpress
+bbc
+walmart
+target
+homedepot
+ikea
+samsung
+nike
+adobe
+spotify
+roblox
+zoom
+discord
+quora
+fandom
+twitch
+vimeo
+bilibili
+alibaba
+rakuten
+mercadolivre
+globo
+detik
+kompas
+hurriyet
+bbc
+nytimes
+cnn
+medicalnewstoday
+adult swim
