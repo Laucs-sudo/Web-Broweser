@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="style.css" />
   <!-- Essential Meta Tags -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +24,117 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- Embedded Styles -->
+  <style>
+    body {
+      background-color: #10121b;
+      color: #eee;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #12141f;
+      border-bottom: 1px solid #222436;
+    }
+
+    .branding {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo {
+      display: block;
+    }
+
+    .site-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin: 0;
+      color: #06c2e7;
+    }
+
+    .tagline {
+      margin-left: auto;
+      font-size: 1rem;
+      color: #7f8fa4;
+      font-weight: 400;
+    }
+
+    .search-section {
+      padding: 2rem;
+    }
+
+    .searchbar {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background-color: #222436;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+    }
+
+    .search-icon {
+      fill: #7f8fa4;
+      flex-shrink: 0;
+    }
+
+    #searchInput {
+      flex-grow: 1;
+      background: transparent;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      color: #eee;
+      font-size: 1rem;
+      outline-offset: 2px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    #searchInput::placeholder {
+      color: #7f8fa4;
+      font-weight: 400;
+    }
+
+    .results-list {
+      list-style: none;
+      max-width: 600px;
+      margin: 1rem auto 0;
+      padding: 0;
+      color: #eee;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .results-list li {
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid #222436;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #7f8fa4;
+      font-style: italic;
+    }
+
+    .site-footer {
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #7f8fa4;
+      border-top: 1px solid #222436;
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 
   <!-- Scripts -->
   <script src="main.js" defer></script>
