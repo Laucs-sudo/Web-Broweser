@@ -42,14 +42,6 @@
       margin: 20px auto;
     }
 
-    .result-item {
-      display: flex;
-      align-items: center;
-      padding: 10px 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 14px;
-    }
-
     .favicon-box {
       width: 24px;
       height: 24px;
@@ -66,44 +58,63 @@
       width: 20px;
       height: 20px;
     }
+
   </style>
 </head>
 <body>
 
   <main class="search-section">
-    <form class="searchbar" autocomplete="off">
+    <form class="searchbar" autocomplete="off" onsubmit="event.preventDefault();">
       <div class="search-wrapper">
         <input id="searchInput" type="search" name="search" placeholder="Type to search..." aria-label="Search">
       </div>
     </form>
 
-    <ul id="resultsList" class="results-list">
-      <li class="result-item">
-        <div class="favicon-box">
-          <img src="https://www.google.com/favicon.ico" alt="Google Favicon">
-        </div>
-        Google
-      </li>
-      <li class="result-item">
-        <div class="favicon-box">
-          <img src="https://www.amazon.com/favicon.ico" alt="Amazon Favicon">
-        </div>
-        Amazon
-      </li>
-      <li class="result-item">
-        <div class="favicon-box">
-          <img src="https://www.facebook.com/favicon.ico" alt="Facebook Favicon">
-        </div>
-        Facebook
-      </li>
-      <li class="result-item">
-        <div class="favicon-box">
-          <img src="https://www.twitter.com/favicon.ico" alt="Twitter Favicon">
-        </div>
-        Twitter
-      </li>
-    </ul>
+    <ul id="resultsList" class="results-list"></ul>
   </main>
+
+  <script>
+    let searchData = [];
+
+    async function loadSearches() {
+      try {
+        const response = await fetch("searches.txt");
+        const text = await response.text();
+        searchData = text.split("\n").map(site => site.trim()).filter(site => site);
+        updateResultsList();
+      } catch (error) {
+        console.error("Error loading searches.txt", error);
+      }
+    }
+
+    function updateResultsList() {
+      const resultsList = document.getElementById("resultsList");
+      resultsList.innerHTML = "";
+
+      searchData.forEach(site => {
+        const li = document.createElement("li");
+
+        const faviconBox = document.createElement("div");
+        faviconBox.classList.add("favicon-box");
+
+        const faviconImg = document.createElement("img");
+        faviconImg.src = `https://www.${site}.com/favicon.ico`;
+        faviconBox.appendChild(faviconImg);
+
+        li.appendChild(faviconBox);
+        li.appendChild(document.createTextNode(site));
+        resultsList.appendChild(li);
+      });
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+      searchData = searchData.filter(site => site.includes(query));
+      updateResultsList();
+    });
+
+    document.addEventListener("DOMContentLoaded", loadSearches);
+  </script>
 
 </body>
 </html>
