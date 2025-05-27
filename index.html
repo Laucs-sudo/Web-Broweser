@@ -3,43 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vireon – High-end live search interface">
-  <meta name="theme-color" content="#0f0f0f">
   <title>Vireon – Live Search</title>
-
   <style>
-    /* Base Styles */
     body {
       background-color: #0f0f0f;
       color: #f5f5f5;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       margin: 0;
-      padding: 0;
-    }
-
-    /* Header */
-    .site-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       padding: 20px;
-      background: linear-gradient(135deg, #161616, #202022);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .site-title {
-      font-family: 'Playfair Display', serif;
-      font-weight: bold;
-      font-size: 24px;
-      color: #00bcd4;
-      margin: 0;
-    }
-
-    /* Search Section */
-    .search-section {
-      padding: 40px 20px;
-      text-align: center;
     }
 
     .search-wrapper {
@@ -51,13 +23,6 @@
       max-width: 450px;
       margin: auto;
       backdrop-filter: blur(6px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .search-icon {
-      width: 20px;
-      height: 20px;
-      fill: #b0b0b0;
     }
 
     #searchInput {
@@ -77,55 +42,68 @@
       margin: 20px auto;
     }
 
-    .results-list li {
+    .result-item {
+      display: flex;
+      align-items: center;
       padding: 10px 15px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       font-size: 14px;
     }
 
-    .no-results {
-      text-align: center;
-      color: #b0b0b0;
-      font-style: italic;
+    .favicon-box {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
     }
 
-    /* Footer */
-    .site-footer {
-      padding: 20px;
-      text-align: center;
-      font-size: 12px;
-      color: #b0b0b0;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    .favicon-box img {
+      width: 20px;
+      height: 20px;
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <h1 class="site-title">Vireon</h1>
-    <p class="tagline">Minimalist & Lightning-Fast Search</p>
-  </header>
 
   <main class="search-section">
-    <form class="searchbar" autocomplete="off" onsubmit="event.preventDefault();">
+    <form class="searchbar" autocomplete="off">
       <div class="search-wrapper">
-        <svg class="search-icon" viewBox="0 0 24 24">
-          <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767 0-1.06zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7-7-3.14-7-7z"></path>
-        </svg>
         <input id="searchInput" type="search" name="search" placeholder="Type to search..." aria-label="Search">
       </div>
     </form>
 
     <ul id="resultsList" class="results-list">
-      <li class="no-results">Loading data...</li>
+      <li class="result-item">
+        <div class="favicon-box">
+          <img src="https://www.google.com/favicon.ico" alt="Google Favicon">
+        </div>
+        Google
+      </li>
+      <li class="result-item">
+        <div class="favicon-box">
+          <img src="https://www.amazon.com/favicon.ico" alt="Amazon Favicon">
+        </div>
+        Amazon
+      </li>
+      <li class="result-item">
+        <div class="favicon-box">
+          <img src="https://www.facebook.com/favicon.ico" alt="Facebook Favicon">
+        </div>
+        Facebook
+      </li>
+      <li class="result-item">
+        <div class="favicon-box">
+          <img src="https://www.twitter.com/favicon.ico" alt="Twitter Favicon">
+        </div>
+        Twitter
+      </li>
     </ul>
   </main>
 
-  <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Vireon. All rights reserved.</p>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
