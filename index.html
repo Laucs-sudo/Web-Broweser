@@ -1,165 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Essential Meta Tags -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="description" content="Vireon is a high-performance, stylish live search interface." />
-  <meta name="theme-color" content="#10121b" />
-
-  <!-- SEO + Open Graph -->
-  <meta property="og:title" content="Vireon – Live Search" />
-  <meta property="og:description" content="Lightning-fast live search with elegant design." />
-  <meta property="og:image" content="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f50d.png" />
-  <meta property="og:url" content="https://yourdomain.com" />
-  <meta name="twitter:card" content="summary" />
-
-  <!-- Title & Favicon -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vireon – High-end live search interface">
+  <meta name="theme-color" content="#0f0f0f">
   <title>Vireon – Live Search</title>
-  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f50d.png" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
-
-  <!-- Embedded Styles -->
   <style>
+    /* Base Styles */
     body {
-      background-color: #10121b;
-      color: #eee;
+      background-color: #0f0f0f;
+      color: #f5f5f5;
       font-family: 'Inter', sans-serif;
+      font-size: 14px;
       margin: 0;
       padding: 0;
     }
 
+    /* Header */
     .site-header {
       display: flex;
       align-items: center;
-      padding: 1rem 2rem;
-      background-color: #12141f;
-      border-bottom: 1px solid #222436;
-    }
-
-    .branding {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .logo {
-      display: block;
+      justify-content: space-between;
+      padding: 20px;
+      background: linear-gradient(135deg, #161616, #202022);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .site-title {
       font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 1.8rem;
+      font-weight: bold;
+      font-size: 24px;
+      color: #00bcd4;
       margin: 0;
-      color: #06c2e7;
     }
 
-    .tagline {
-      margin-left: auto;
-      font-size: 1rem;
-      color: #7f8fa4;
-      font-weight: 400;
-    }
-
+    /* Search Section */
     .search-section {
-      padding: 2rem;
-    }
-
-    .searchbar {
-      max-width: 600px;
-      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
     }
 
     .search-wrapper {
-      position: relative;
       display: flex;
       align-items: center;
-      background-color: #222436;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 12px 16px;
+      max-width: 450px;
+      margin: auto;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .search-icon {
-      fill: #7f8fa4;
-      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      fill: #b0b0b0;
     }
 
     #searchInput {
       flex-grow: 1;
-      background: transparent;
+      background: none;
       border: none;
-      padding: 0.5rem 0.75rem;
-      color: #eee;
-      font-size: 1rem;
-      outline-offset: 2px;
-      font-family: 'Inter', sans-serif;
-    }
-
-    #searchInput::placeholder {
-      color: #7f8fa4;
-      font-weight: 400;
+      color: #f5f5f5;
+      font-size: 14px;
+      padding: 6px;
+      outline: none;
     }
 
     .results-list {
       list-style: none;
-      max-width: 600px;
-      margin: 1rem auto 0;
       padding: 0;
-      color: #eee;
-      font-family: 'Inter', sans-serif;
+      max-width: 450px;
+      margin: 20px auto;
     }
 
     .results-list li {
-      padding: 0.5rem 1rem;
-      border-bottom: 1px solid #222436;
+      padding: 10px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 14px;
     }
 
     .no-results {
       text-align: center;
-      color: #7f8fa4;
+      color: #b0b0b0;
       font-style: italic;
     }
 
+    /* Footer */
     .site-footer {
-      padding: 1rem 2rem;
+      padding: 20px;
       text-align: center;
-      font-size: 0.9rem;
-      color: #7f8fa4;
-      border-top: 1px solid #222436;
-      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #b0b0b0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
   </style>
-
-  <!-- Scripts -->
-  <script src="main.js" defer></script>
 </head>
 <body>
   <header class="site-header">
-    <div class="branding" role="banner">
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f50d.png" alt="Vireon logo" class="logo" width="48" height="48" />
-      <h1 class="site-title">Vireon</h1>
-    </div>
-    <p class="tagline">Lightning-fast live search with style</p>
+    <h1 class="site-title">Vireon</h1>
+    <p class="tagline">Minimalist & Lightning-Fast Search</p>
   </header>
 
-  <main class="search-section" aria-label="Live search interface">
-    <form class="searchbar" role="search" autocomplete="off" onsubmit="event.preventDefault();">
-      <label for="searchInput" class="visually-hidden">Search domains</label>
+  <main class="search-section">
+    <form class="searchbar" autocomplete="off" onsubmit="event.preventDefault();">
       <div class="search-wrapper">
-        <svg aria-hidden="true" class="search-icon" viewBox="0 0 24 24" width="20" height="20">
+        <svg class="search-icon" viewBox="0 0 24 24">
           <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767 0-1.06zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7-7-3.14-7-7z"></path>
         </svg>
-        <input id="searchInput" type="search" name="search" placeholder="Type to filter..." aria-label="Type to search domains" autofocus />
+        <input id="searchInput" type="search" name="search" placeholder="Type to search..." aria-label="Search">
       </div>
     </form>
 
-    <ul id="resultsList" class="results-list" tabindex="0" aria-live="polite" aria-label="Search results">
+    <ul id="resultsList" class="results-list">
       <li class="no-results">Loading data...</li>
     </ul>
   </main>
@@ -169,7 +125,6 @@
   </footer>
 
   <script>
-    // Insert current year into footer
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
