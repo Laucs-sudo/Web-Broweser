@@ -4,113 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vireon – Live Search</title>
-  <style>
-    body {
-      background-color: #0f0f0f;
-      color: #f5f5f5;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    h1.title {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 2.5rem;
-      color: #06c2e7;
-      margin: 0 0 20px 0;
-      user-select: none;
-    }
-
-    .search-wrapper {
-      display: flex;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      padding: 12px 16px;
-      max-width: 450px;
-      width: 100%;
-      backdrop-filter: blur(6px);
-    }
-
-    #searchInput {
-      flex-grow: 1;
-      background: none;
-      border: none;
-      color: #f5f5f5;
-      font-size: 14px;
-      padding: 6px;
-      outline: none;
-    }
-
-    .results-box {
-      margin-top: 12px;
-      max-width: 450px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease, max-height 0.3s ease;
-      background-color: #1a1c2b;
-      border-radius: 8px;
-      box-shadow: inset 0 0 6px #0a0b10;
-      user-select: none;
-      padding: 0 0; /* no padding when hidden */
-    }
-
-    .results-box.visible {
-      opacity: 1;
-      max-height: 300px;
-      overflow-y: auto;
-      padding: 8px 12px;
-    }
-
-    .result-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      color: #e0e0e0;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-    .result-item:hover,
-    .result-item:focus {
-      background-color: #06c2e7;
-      color: #10121b;
-      outline: none;
-    }
-
-    .favicon-box {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      overflow: hidden;
-      background: #222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .favicon-box img {
-      width: 20px;
-      height: 20px;
-      display: block;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <meta name="theme-color" content="#0a0a0f">
 </head>
 <body>
+  <div class="gradient-orb"></div>
   <h1 class="title">Vireon</h1>
 
   <main class="search-section" style="width: 100%; max-width: 450px;">
@@ -131,89 +33,6 @@
     <div id="resultsBox" class="results-box" role="listbox" aria-live="polite"></div>
   </main>
 
-  <script>
-    let allSites = [];
-
-    async function loadSearches() {
-      try {
-        const response = await fetch("searches.txt");
-        const text = await response.text();
-        allSites = text
-          .split("\n")
-          .map(site => site.trim())
-          .filter(site => site);
-        updateResultsList(""); // start with empty query = no results shown
-      } catch (error) {
-        console.error("Error loading searches.txt", error);
-      }
-    }
-
-    function updateResultsList(query) {
-      const resultsBox = document.getElementById("resultsBox");
-      resultsBox.innerHTML = "";
-
-      if (!query) {
-        // hide results when no input
-        resultsBox.classList.remove("visible");
-        return;
-      }
-
-      const filteredSites = allSites.filter(site =>
-        site.toLowerCase().includes(query.toLowerCase())
-      );
-
-      if (filteredSites.length === 0) {
-        resultsBox.classList.remove("visible");
-        return;
-      }
-
-      filteredSites.forEach(site => {
-        const item = document.createElement("div");
-        item.className = "result-item";
-        item.tabIndex = 0;
-        item.setAttribute("role", "option");
-
-        const faviconBox = document.createElement("div");
-        faviconBox.className = "favicon-box";
-
-        const favicon = document.createElement("img");
-        favicon.src = `https://${site}.com/favicon.ico`;
-        favicon.alt = `${site} favicon`;
-        favicon.onerror = () => (favicon.style.display = "none");
-
-        const siteName = document.createElement("span");
-        siteName.className = "site-name";
-        siteName.textContent = site;
-
-        faviconBox.appendChild(favicon);
-        item.appendChild(faviconBox);
-        item.appendChild(siteName);
-        resultsBox.appendChild(item);
-
-        item.addEventListener("click", () => {
-          navigator.clipboard.writeText(site);
-          item.style.background = "rgba(100,181,246,0.14)";
-          setTimeout(() => (item.style.background = ""), 600);
-        });
-
-        item.addEventListener("keydown", e => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            item.click();
-          }
-        });
-      });
-
-      resultsBox.classList.add("visible");
-    }
-
-    document.getElementById("searchInput").addEventListener("input", e => {
-      const query = e.target.value.trim();
-      updateResultsList(query);
-    });
-
-    // Initialize
-    document.addEventListener("DOMContentLoaded", loadSearches);
-  </script>
+  <script src="script.js" defer></script>
 </body>
 </html>
