@@ -1,181 +1,35 @@
-/* Reset & Base Styles */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+<!-- Header -->
+<header class="site-header">
+  <div class="section-label">
+    <img src="favicon.ico" alt="Vireon Logo" class="section-icon">
+    <span>Vireon</span>
+  </div>
+  <div class="branding">
+    <img src="favicon.ico" alt="Logo" class="logo" />
+    <h1 class="site-title">Vireon</h1>
+  </div>
+  <p class="tagline">Intelligent search at your fingertips</p>
+</header>
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: #0e111b;
-  color: #e0e0e0;
-  line-height: 1.6;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
+<!-- Search Section -->
+<main class="search-section">
+  <div class="section-label">
+    <img src="favicon.ico" alt="Vireon Icon" class="section-icon">
+    <span>Vireon</span>
+  </div>
+  <form class="searchbar">
+    <div class="search-wrapper">
+      <svg class="search-icon" ...></svg>
+      <input type="search" placeholder="Search something..." />
+    </div>
+  </form>
+</main>
 
-/* Accessibility: Visually Hidden */
-.visually-hidden {
-  position: absolute !important;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Header */
-.site-header {
-  padding: 1.25rem 2rem;
-  background-color: #141624;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  text-align: center;
-}
-
-.branding {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.logo {
-  border-radius: 0.5rem;
-  filter: drop-shadow(0 0 3px #06c2e7);
-  max-height: 48px;
-}
-
-.site-title {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 2rem;
-  color: #06c2e7;
-  margin: 0;
-}
-
-.tagline {
-  font-style: italic;
-  font-size: 1.05rem;
-  color: #7a8ca1;
-  margin-top: 0.25rem;
-}
-
-/* Main Search Section */
-.search-section {
-  flex-grow: 1;
-  padding: 2.5rem 1.5rem;
-  max-width: 520px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.searchbar {
-  width: 100%;
-}
-
-.search-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  border-radius: 0.5rem;
-  background-color: #1a1c2b;
-  box-shadow: inset 0 0 8px #0a0b10;
-  padding: 0.6rem 1.2rem;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.search-wrapper:focus-within {
-  box-shadow: 0 0 10px #06c2e7;
-  transform: scale(1.01);
-}
-
-.search-icon {
-  fill: #06c2e7;
-  flex-shrink: 0;
-  margin-right: 0.8rem;
-  transition: transform 0.3s ease;
-}
-
-.search-wrapper:focus-within .search-icon {
-  transform: scale(1.2);
-}
-
-input[type="search"] {
-  flex-grow: 1;
-  font-size: 1rem;
-  font-weight: 500;
-  background: transparent;
-  border: none;
-  color: #e0e0e0;
-  outline: none;
-}
-
-input[type="search"]::placeholder {
-  color: #6a7b94;
-  font-weight: 400;
-  transition: color 0.3s ease;
-}
-
-/* Results List */
-.results-list {
-  margin-top: 2rem;
-  padding: 0;
-  list-style: none;
-  max-height: 320px;
-  overflow-y: auto;
-  border-radius: 0.5rem;
-  background-color: #1a1c2b;
-  box-shadow: inset 0 0 8px #0a0b10;
-  scrollbar-width: thin;
-  scrollbar-color: #06c2e7 #10121b;
-}
-
-.results-list::-webkit-scrollbar {
-  width: 8px;
-}
-.results-list::-webkit-scrollbar-thumb {
-  background-color: #06c2e7;
-  border-radius: 4px;
-}
-.results-list::-webkit-scrollbar-track {
-  background-color: #10121b;
-}
-
-.results-list li {
-  padding: 0.9rem 1.25rem;
-  border-bottom: 1px solid #272c40;
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-.results-list li:hover,
-.results-list li:focus-visible {
-  background-color: #06c2e7;
-  color: #10121b;
-  outline: none;
-}
-
-/* Footer */
-.site-footer {
-  text-align: center;
-  padding: 1.25rem;
-  font-size: 0.9rem;
-  color: #4c556f;
-  background-color: #141624;
-  box-shadow: inset 0 1px 0 #222739;
-  user-select: none;
-}
-
-/* Optional: Focus ring for keyboard users */
-:focus-visible {
-  outline: 2px dashed #06c2e7;
-  outline-offset: 4px;
-}
+<!-- Results List -->
+<ul class="results-list">
+  <div class="section-label">
+    <img src="favicon.ico" alt="Vireon Icon" class="section-icon">
+    <span>Vireon</span>
+  </div>
+  <!-- Results go here -->
+</ul>
