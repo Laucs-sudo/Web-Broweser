@@ -4,28 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vireon – Live Search</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
     body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
       background-color: #0f0f0f;
       color: #f5f5f5;
-      line-height: 1.5;
-      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      margin: 0;
+      padding: 40px 20px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem 1rem;
+      justify-content: center;
     }
 
-    .searchbar {
+    .search-container {
       width: 100%;
       max-width: 480px;
     }
@@ -35,14 +26,8 @@
       align-items: center;
       background: rgba(255, 255, 255, 0.05);
       border-radius: 8px;
-      padding: 0.75rem 1rem;
+      padding: 12px 16px;
       backdrop-filter: blur(6px);
-      box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.06);
-      transition: box-shadow 0.3s ease;
-    }
-
-    .search-wrapper:focus-within {
-      box-shadow: 0 0 8px #06c2e7;
     }
 
     #searchInput {
@@ -50,43 +35,30 @@
       background: none;
       border: none;
       color: #f5f5f5;
-      font-size: 1rem;
-      font-weight: 500;
+      font-size: 14px;
       padding: 6px;
       outline: none;
     }
 
-    #searchInput::placeholder {
-      color: #aaa;
-      font-weight: 400;
+    .results-box {
+      margin-top: 10px;
+      display: none; /* Hidden by default */
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .results-list {
-      list-style: none;
-      padding: 0;
-      margin-top: 1.5rem;
-      width: 100%;
-      max-width: 480px;
-      border-radius: 8px;
-      background-color: #1a1c2b;
-      box-shadow: inset 0 0 6px #0a0b10;
-      overflow-y: auto;
-      max-height: 300px;
-    }
-
-    .results-list li {
+    .result-item {
       display: flex;
       align-items: center;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #272c40;
-      cursor: default;
-      user-select: none;
-      transition: background-color 0.2s ease;
+      background: #1a1a1a;
+      padding: 10px 14px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+      cursor: pointer;
     }
 
-    .results-list li:hover {
-      background-color: #06c2e7;
-      color: #10121b;
+    .result-item:hover {
+      background: #2a2a2a;
     }
 
     .favicon-box {
@@ -105,26 +77,23 @@
     .favicon-box img {
       width: 20px;
       height: 20px;
-      object-fit: contain;
     }
 
     .site-name {
-      font-size: 1rem;
-      font-weight: 500;
+      color: #f5f5f5;
     }
   </style>
 </head>
 <body>
-
-  <main class="search-section">
+  <div class="search-container">
     <form class="searchbar" autocomplete="off" onsubmit="event.preventDefault();">
       <div class="search-wrapper">
-        <input id="searchInput" type="search" name="search" placeholder="Search the web..." aria-label="Search">
+        <input id="searchInput" type="search" name="search" placeholder="Type to search..." aria-label="Search">
       </div>
     </form>
 
-    <ul id="resultsList" class="results-list"></ul>
-  </main>
+    <div id="resultsBox" class="results-box"></div>
+  </div>
 
   <script>
     let allSites = [];
@@ -134,27 +103,33 @@
       try {
         const response = await fetch("searches.txt");
         const text = await response.text();
-        allSites = text.split("\n").map(s => s.trim()).filter(Boolean);
-        filteredSites = [...allSites];
-        updateResultsList();
-      } catch (error) {
-        console.error("Error loading searches.txt", error);
-        document.getElementById("resultsList").innerHTML =
-          '<li style="padding: 1rem; text-align: center; color: #999;">Failed to load entries.</li>';
+        allSites = text.split("\n").map(line => line.trim()).filter(Boolean);
+      } catch (err) {
+        console.error("Failed to load searches.txt:", err);
       }
     }
 
-    function updateResultsList() {
-      const list = document.getElementById("resultsList");
-      list.innerHTML = "";
+    function updateResultsList(query) {
+      const resultsBox = document.getElementById("resultsBox");
+      resultsBox.innerHTML = "";
+
+      if (!query) {
+        resultsBox.style.display = "none";
+        return;
+      }
+
+      filteredSites = allSites.filter(site =>
+        site.toLowerCase().includes(query.toLowerCase())
+      );
 
       if (filteredSites.length === 0) {
-        list.innerHTML = '<li style="padding: 1rem; text-align: center; color: #999;">No matches found.</li>';
+        resultsBox.style.display = "none";
         return;
       }
 
       filteredSites.forEach(site => {
-        const li = document.createElement("li");
+        const item = document.createElement("div");
+        item.className = "result-item";
 
         const faviconBox = document.createElement("div");
         faviconBox.className = "favicon-box";
@@ -162,28 +137,31 @@
         const favicon = document.createElement("img");
         favicon.src = `https://${site}.com/favicon.ico`;
         favicon.alt = `${site} favicon`;
-        favicon.onerror = () => (favicon.style.visibility = 'hidden');
+        favicon.onerror = () => favicon.style.display = "none";
+
+        const siteName = document.createElement("span");
+        siteName.className = "site-name";
+        siteName.textContent = site;
 
         faviconBox.appendChild(favicon);
+        item.appendChild(faviconBox);
+        item.appendChild(siteName);
+        resultsBox.appendChild(item);
 
-        const textSpan = document.createElement("span");
-        textSpan.className = "site-name";
-        textSpan.textContent = site;
-
-        li.appendChild(faviconBox);
-        li.appendChild(textSpan);
-        list.appendChild(li);
+        item.addEventListener("click", () => {
+          navigator.clipboard.writeText(site);
+        });
       });
+
+      resultsBox.style.display = "flex";
     }
 
-    document.getElementById("searchInput").addEventListener("input", e => {
-      const val = e.target.value.trim().toLowerCase();
-      filteredSites = allSites.filter(site => site.toLowerCase().includes(val));
-      updateResultsList();
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const val = e.target.value.trim();
+      updateResultsList(val);
     });
 
     document.addEventListener("DOMContentLoaded", loadSearches);
   </script>
-
 </body>
 </html>
