@@ -5,45 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vireon – Live Search</title>
   <style>
-    /* Reset */
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
+    body {
       background-color: #0f0f0f;
       color: #f5f5f5;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
-    }
-
-    body {
+      margin: 0;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 20px;
     }
 
-    .site-title {
+    h1.title {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
-      font-size: 3rem;
+      font-size: 2.5rem;
       color: #06c2e7;
-      margin-bottom: 24px;
+      margin: 0 0 20px 0;
       user-select: none;
-    }
-
-    .search-container {
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
     }
 
     .search-wrapper {
@@ -52,6 +33,8 @@
       background: rgba(255, 255, 255, 0.05);
       border-radius: 8px;
       padding: 12px 16px;
+      max-width: 450px;
+      width: 100%;
       backdrop-filter: blur(6px);
     }
 
@@ -60,33 +43,52 @@
       background: none;
       border: none;
       color: #f5f5f5;
-      font-size: 16px;
-      padding: 8px;
+      font-size: 14px;
+      padding: 6px;
       outline: none;
-      font-weight: 500;
     }
 
     .results-box {
       margin-top: 12px;
-      display: none; /* Hidden by default */
+      max-width: 450px;
+      width: 100%;
+      display: flex;
       flex-direction: column;
       gap: 8px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+      background-color: #1a1c2b;
+      border-radius: 8px;
+      box-shadow: inset 0 0 6px #0a0b10;
+      user-select: none;
+      padding: 0 0; /* no padding when hidden */
+    }
+
+    .results-box.visible {
+      opacity: 1;
       max-height: 300px;
       overflow-y: auto;
+      padding: 8px 12px;
     }
 
     .result-item {
       display: flex;
       align-items: center;
-      background: #1a1a1a;
-      padding: 10px 14px;
+      gap: 12px;
+      padding: 8px 10px;
       border-radius: 6px;
-      transition: background 0.2s ease;
       cursor: pointer;
+      color: #e0e0e0;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    .result-item:hover {
-      background: #2a2a2a;
+    .result-item:hover,
+    .result-item:focus {
+      background-color: #06c2e7;
+      color: #10121b;
+      outline: none;
     }
 
     .favicon-box {
@@ -98,25 +100,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 12px;
       flex-shrink: 0;
     }
 
     .favicon-box img {
       width: 20px;
       height: 20px;
-    }
-
-    .site-name {
-      color: #f5f5f5;
-      font-weight: 500;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="site-title">Vireon</div>
+  <h1 class="title">Vireon</h1>
 
-  <div class="search-container">
+  <main class="search-section" style="width: 100%; max-width: 450px;">
     <form class="searchbar" autocomplete="off" onsubmit="event.preventDefault();">
       <div class="search-wrapper">
         <input
@@ -125,27 +122,29 @@
           name="search"
           placeholder="Type to search..."
           aria-label="Search"
-          autofocus
-          spellcheck="false"
           autocomplete="off"
+          spellcheck="false"
         />
       </div>
     </form>
 
-    <div id="resultsBox" class="results-box"></div>
-  </div>
+    <div id="resultsBox" class="results-box" role="listbox" aria-live="polite"></div>
+  </main>
 
   <script>
     let allSites = [];
-    let filteredSites = [];
 
     async function loadSearches() {
       try {
         const response = await fetch("searches.txt");
         const text = await response.text();
-        allSites = text.split("\n").map(line => line.trim()).filter(Boolean);
-      } catch (err) {
-        console.error("Failed to load searches.txt:", err);
+        allSites = text
+          .split("\n")
+          .map(site => site.trim())
+          .filter(site => site);
+        updateResultsList(""); // start with empty query = no results shown
+      } catch (error) {
+        console.error("Error loading searches.txt", error);
       }
     }
 
@@ -154,22 +153,25 @@
       resultsBox.innerHTML = "";
 
       if (!query) {
-        resultsBox.style.display = "none";
+        // hide results when no input
+        resultsBox.classList.remove("visible");
         return;
       }
 
-      filteredSites = allSites.filter(site =>
+      const filteredSites = allSites.filter(site =>
         site.toLowerCase().includes(query.toLowerCase())
       );
 
       if (filteredSites.length === 0) {
-        resultsBox.style.display = "none";
+        resultsBox.classList.remove("visible");
         return;
       }
 
       filteredSites.forEach(site => {
         const item = document.createElement("div");
         item.className = "result-item";
+        item.tabIndex = 0;
+        item.setAttribute("role", "option");
 
         const faviconBox = document.createElement("div");
         faviconBox.className = "favicon-box";
@@ -190,17 +192,27 @@
 
         item.addEventListener("click", () => {
           navigator.clipboard.writeText(site);
+          item.style.background = "rgba(100,181,246,0.14)";
+          setTimeout(() => (item.style.background = ""), 600);
+        });
+
+        item.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            item.click();
+          }
         });
       });
 
-      resultsBox.style.display = "flex";
+      resultsBox.classList.add("visible");
     }
 
-    document.getElementById("searchInput").addEventListener("input", (e) => {
-      const val = e.target.value.trim();
-      updateResultsList(val);
+    document.getElementById("searchInput").addEventListener("input", e => {
+      const query = e.target.value.trim();
+      updateResultsList(query);
     });
 
+    // Initialize
     document.addEventListener("DOMContentLoaded", loadSearches);
   </script>
 </body>
