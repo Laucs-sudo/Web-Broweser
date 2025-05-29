@@ -57,9 +57,9 @@ function updateResultsList(query) {
     favicon.onerror = () => {
       const initial = document.createElement('span');
       initial.textContent = site.charAt(0).toUpperCase();
-      initial.style.fontFamily = "'Playfair Display', serif";
+      initial.style.fontFamily = "'Roboto', sans-serif"; // Changed to Roboto
       initial.style.fontSize = '16px';
-      initial.style.color = '#06c2e7';
+      initial.style.color = '#3A00E5'; // Changed to MD3 primary color
       faviconBox.innerHTML = '';
       faviconBox.style.display = 'flex';
       faviconBox.style.alignItems = 'center';
@@ -76,18 +76,21 @@ function updateResultsList(query) {
     item.appendChild(siteName);
     resultsBox.appendChild(item);
 
-    item.addEventListener("click", () => {
+    // Add ripple effect listener
+    item.addEventListener("click", applyRippleEffect);
+
+    item.addEventListener("click", ()_copy => { // Renamed to avoid conflict with applyRippleEffect
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(site).then(() => {
-          const originalBg = item.style.backgroundColor;
-          item.style.backgroundColor = "rgba(6, 194, 231, 0.3)";
-          setTimeout(() => {
-            item.style.backgroundColor = originalBg;
-          }, 600);
+          // Visual feedback for copy can be enhanced or removed if ripple is enough
+          // For now, let's keep a subtle one, but not the background color change
+          // which might conflict with ripple.
+          // Consider a small toast/notification if more feedback is needed.
         }).catch(err => {
           console.error('Clipboard write failed: ', err);
         });
       } else {
+        // Consider a more MD-style notification/toast here if possible
         alert('Clipboard API is not supported in your browser.');
       }
     });
@@ -143,3 +146,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 100);
 });
+
+function applyRippleEffect(event) {
+  const item = event.currentTarget;
+
+  // Create ripple element
+  const ripple = document.createElement("span");
+  const diameter = Math.max(item.clientWidth, item.clientHeight);
+  const radius = diameter / 2;
+
+  ripple.style.width = ripple.style.height = `${diameter}px`;
+  ripple.style.left = `${event.clientX - item.getBoundingClientRect().left - radius}px`;
+  ripple.style.top = `${event.clientY - item.getBoundingClientRect().top - radius}px`;
+  ripple.classList.add("ripple-effect"); // Add class for styling via CSS
+
+  // Ensure ripple is removed after animation
+  ripple.addEventListener("animationend", () => {
+    ripple.remove();
+  });
+
+  item.appendChild(ripple);
+}

@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vireon – Live Search</title>
+  <title>Vireon - Material You Search</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- Removed Inter and Playfair Display links, Roboto is imported in styles.css -->
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.png" type="image/png">
   <meta name="theme-color" content="#0a0a0f">
 </head>
 <body>
   <div class="gradient-orb"></div>
-  <h1 class="title">Vireon</h1>
+  <div class="main-content-area">
+    <h1 class="title">Vireon</h1>
 
-  <main class="search-section" style="width: 100%; max-width: 450px;">
-    <form class="searchbar" autocomplete="off" onsubmit="event.preventDefault();">
-      <div class="search-wrapper">
+    <main class="search-section" style="width: 100%; max-width: 450px;">
+      <form class="searchbar" autocomplete="off" onsubmit="event.preventDefault();">
+        <div class="search-wrapper">
         <label for="searchInput" class="visually-hidden">Search</label>
         <input
           id="searchInput"
@@ -32,8 +33,10 @@
     </form>
 
     <div id="resultsBox" class="results-box" role="listbox" aria-live="polite"></div>
-  </main>
+    </main>
+  </div>
 
   <script src="script.js" defer></script>
+  <footer>© 2024 Vireon Search</footer>
 </body>
 </html>
