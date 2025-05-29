@@ -1,185 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 body {
-  background-color: #0a0a0f;
-  color: #f0f0f5;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  background-color: #f5f5f5; /* MD3 light theme background */
+  color: #1c1b1f; /* MD3 light theme text color */
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px; /* Slightly larger base font size for MD3 */
   margin: 0;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Align content to the top */
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: radial-gradient(circle at 50% -20%, #1a1a2e, #0a0a0f 60%);
+  background: #f5f5f5; /* Simpler background */
+}
+
+.main-content-area {
+  width: 100%;
+  max-width: 960px; /* Example max-width for content area */
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: auto; /* Pushes footer to the bottom if content is short */
+  color: #49454f; /* MD3 subtle text color */
+  font-size: 0.875rem;
 }
 
 .title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Roboto', sans-serif; /* Changed from Playfair Display */
   font-weight: 700;
-  font-size: 4.2rem;
-  color: #06c2e7;
-  margin: 0 0 50px 0;
+  font-size: 3.5rem; /* Adjusted size */
+  color: #3A00E5; /* Example MD3 primary color */
+  margin: 40px 0 30px 0; /* Adjusted margins */
   user-select: none;
   text-align: center;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #06c2e7 0%, #04a0c0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.01em; /* Adjusted letter-spacing */
+  /* Removed gradient text for simpler MD3 look */
   position: relative;
-  opacity: 0; /* For entrance animation */
-  transform: translateY(-40px);
-  transition: opacity 0.8s, transform 0.8s;
+  /* Entrance animation will be reviewed/simplified later if needed */
+  opacity: 1; /* Simpler presentation for now */
+  transform: translateY(0); /* Simpler presentation for now */
+  transition: none; /* Remove transition for now */
 }
 
 .title::after {
   content: '';
   position: absolute;
-  width: 120px;
-  height: 4px;
-  background: linear-gradient(90deg, #06c2e7, transparent);
-  bottom: -15px;
+  width: 80px; /* Adjusted width */
+  height: 3px; /* Adjusted height */
+  background: #3A00E5; /* Solid MD3 primary color */
+  bottom: -10px; /* Adjusted position */
   left: 50%;
   transform: translateX(-50%);
-  border-radius: 2px;
+  border-radius: 1.5px; /* Adjusted radius */
 }
 
 .search-section {
   width: 100%;
-  max-width: 480px;
-  opacity: 0; /* For entrance animation */
-  transform: translateY(40px);
-  transition: opacity 0.8s, transform 0.8s;
+  max-width: 560px; /* Slightly wider for MD3 feel */
+  opacity: 1; /* Simpler presentation for now */
+  transform: translateY(0); /* Simpler presentation for now */
+  transition: none; /* Remove transition for now */
+  margin-bottom: 24px; /* Added margin for spacing */
 }
 
 .search-wrapper {
   display: flex;
   align-items: center;
-  background: rgba(35, 35, 45, 0.4);
-  border-radius: 10px;
+  background: #ffffff; /* MD3 surface color (white) */
+  border-radius: 28px; /* MD3 large radius for search bars */
   padding: 10px 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 25px rgba(6, 194, 231, 0.08), 0 10px 40px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  backdrop-filter: none; /* Remove blur for standard MD3 surface */
+  -webkit-backdrop-filter: none;
+  border: 1px solid #CAC4D0; /* MD3 outline color */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1); /* MD3 elevation 1 */
+  transition: all 0.2s ease-in-out; /* MD3 standard transition */
 }
 
 .search-wrapper:focus-within {
-  border-color: rgba(6, 194, 231, 0.3);
-  box-shadow: 0 4px 25px rgba(6, 194, 231, 0.15), 0 10px 40px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
+  border-color: #3A00E5; /* MD3 primary color for focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.15), 0 0 0 2px #3A00E5; /* MD3 focus elevation + ring */
+  transform: translateY(0); /* Remove hover transform for cleaner MD3 */
 }
 
 #searchInput {
   flex-grow: 1;
   background: none;
   border: none;
-  color: #f0f0f5;
-  font-size: 17px;
-  font-family: 'Inter', sans-serif;
-  padding: 12px 4px;
+  color: #1c1b1f; /* MD3 text on light surface */
+  font-size: 16px; /* MD3 standard text size */
+  font-family: 'Roboto', sans-serif;
+  padding: 14px 8px; /* Adjusted padding */
   outline: none;
-  letter-spacing: -0.01em;
+  letter-spacing: 0; /* Standard letter-spacing */
 }
 
 #searchInput::placeholder {
-  color: #888;
-  opacity: 0.7;
+  color: #49454f; /* MD3 placeholder color on light surface */
+  opacity: 1; /* Opacity is handled by color itself */
 }
 
 .results-box {
-  margin-top: 16px;
-  max-width: 480px;
+  margin-top: 12px; /* Adjusted margin */
+  max-width: 560px; /* Match search section width */
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px; /* MD3 tighter gap */
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: opacity 0.35s, max-height 0.35s, padding 0.35s;
-  background-color: rgba(30, 32, 43, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 25px rgba(6, 194, 231, 0.08), 0 10px 40px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.25s ease-in-out, max-height 0.25s ease-in-out, padding 0.25s ease-in-out; /* MD3 transitions */
+  background-color: #FFFFFF; /* MD3 surface color */
+  backdrop-filter: none; /* Remove blur */
+  -webkit-backdrop-filter: none;
+  border-radius: 8px; /* MD3 consistent radius */
+  border: 1px solid #CAC4D0; /* MD3 outline */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.1); /* MD3 elevation 2 */
   user-select: none;
   padding: 0 0;
   scrollbar-width: thin;
-  scrollbar-color: #06c2e7 rgba(255,255,255,0.05);
+  scrollbar-color: #79747E #E0E0E0; /* MD3 scrollbar colors (thumb, track) */
 }
 
 .results-box.visible {
   opacity: 1;
-  max-height: 380px;
+  max-height: 400px; /* Adjusted height */
   overflow-y: auto;
-  padding: 10px 12px;
+  padding: 8px; /* MD3 padding */
 }
 
 .results-box::-webkit-scrollbar {
   width: 8px;
 }
 .results-box::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
+  background: #E0E0E0; /* MD3 scrollbar track */
+  border-radius: 4px;
 }
 .results-box::-webkit-scrollbar-thumb {
-  background-color: #06c2e7;
-  border-radius: 10px;
-  border: 2px solid transparent;
+  background-color: #79747E; /* MD3 scrollbar thumb */
+  border-radius: 4px;
+  border: 2px solid #E0E0E0; /* Create a border effect like MD examples */
   background-clip: content-box;
 }
 .results-box::-webkit-scrollbar-thumb:hover {
-  background-color: #05a8c9;
+  background-color: #49454f; /* Darker on hover */
 }
 
 .result-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: 8px;
+  gap: 16px; /* MD3 standard gap */
+  padding: 12px; /* MD3 padding */
+  border-radius: 4px; /* MD3 item radius */
   cursor: pointer;
-  color: #d0d0d5;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #1c1b1f; /* MD3 text on light surface */
+  transition: background-color 0.2s ease-in-out; /* MD3 transitions (removed transform) */
   border: 1px solid transparent;
-  background: none;
+  background: none; /* Transparent background */
+  position: relative; /* For ripple effect */
+  overflow: hidden; /* For ripple effect */
 }
 
-.result-item:hover,
-.result-item:focus {
-  background: linear-gradient(135deg, #06c2e7 0%, #04a0c0 100%);
-  color: #0a0a0f;
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  background-color: rgba(58, 0, 229, 0.12); /* MD3 primary color at 12% opacity */
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.result-item:hover {
+  background-color: rgba(58, 0, 229, 0.08); /* MD3 primary color with low opacity for hover (state layer) */
+  color: #1c1b1f; /* Ensure text color remains */
   outline: none;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 4px 15px rgba(6, 194, 231, 0.2);
+  /* Removed transform and box-shadow for cleaner MD3 hover */
 }
 
 .result-item:focus {
-  box-shadow: 0 0 0 2px rgba(6, 194, 231, 0.4);
+  background-color: rgba(58, 0, 229, 0.12); /* Slightly more pronounced for focus */
+  color: #1c1b1f;
+  outline: none;
+  box-shadow: 0 0 0 2px #3A00E5; /* MD3 focus ring using primary color */
+  /* Removed transform for cleaner MD3 focus */
 }
 
 .favicon-box {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: 4px; /* MD3 icon container radius */
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.1);
+  background: #E0E0E0; /* MD3 subtle background for icon box */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  border: 1px solid #CAC4D0; /* MD3 outline */
+  box-shadow: none; /* Remove previous shadow */
+  transition: background-color 0.2s ease-in-out;
 }
 
-.result-item:hover .favicon-box {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.25);
+.result-item:hover .favicon-box,
+.result-item:focus .favicon-box {
+  background-color: #D0D0D0; /* Slightly darker on item hover/focus */
+  border-color: #B0B0B0; /* Slightly darker border on item hover/focus */
 }
 
 .favicon-box img {
@@ -190,9 +231,11 @@ body {
 }
 
 .site-name {
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-size: 1rem; /* MD3 body large size */
+  font-weight: 400; /* MD3 regular weight */
+  letter-spacing: 0.009375em; /* MD3 standard letter spacing */
+  font-family: 'Roboto', sans-serif; /* Ensure Roboto */
+  color: #1c1b1f; /* Match body text color */
 }
 
 /* Animation prefers reduced motion */
